@@ -263,6 +263,58 @@ def run_experiment_for_layer(
     return df
 
 
+class LocalPipeline:
+    """Thin pipeline wrapper around an already-loaded model and tokenizer.
+
+    Accepts str, list[str], dict{"raw_input": ...}, or list[dict] so that
+    FilterExperiment can pass batches of dataset items directly.
+    """
+
+    def __init__(self, model, tokenizer, max_new_tokens: int = 3):
+        self.model = model
+        self.tokenizer = tokenizer
+        self.max_new_tokens = max_new_tokens
+        self.tokenizer.pad_token = self.tokenizer.eos_token
+        self.tokenizer.pad_token_id = self.tokenizer.convert_tokens_to_ids(
+            self.tokenizer.pad_token
+        )
+
+    def _to_text_list(self, inputs):
+        if isinstance(inputs, str):
+            return [inputs]
+        if isinstance(inputs, dict):
+            return [inputs["raw_input"]]
+        # list of dicts or list of strings
+        return [x["raw_input"] if isinstance(x, dict) else x for x in inputs]
+
+    def generate(self, inputs):
+        texts = self._to_text_list(inputs)
+        if hasattr(self.tokenizer, "apply_chat_template") and self.tokenizer.chat_template:
+            texts = [
+                self.tokenizer.apply_chat_template(
+                    [{"role": "user", "content": t}],
+                    tokenize=False,
+                    add_generation_prompt=True,
+                )
+                for t in texts
+            ]
+        prev_side = self.tokenizer.padding_side
+        self.tokenizer.padding_side = "left"
+        enc = self.tokenizer(texts, return_tensors="pt", padding=True).to(self.model.device)
+        self.tokenizer.padding_side = prev_side
+        with torch.no_grad():
+            out = self.model.generate(
+                **enc,
+                max_new_tokens=self.max_new_tokens,
+                do_sample=False,
+                pad_token_id=self.tokenizer.eos_token_id,
+            )
+        return out[:, enc["input_ids"].shape[1]:]
+
+    def dump(self, output):
+        return self.tokenizer.batch_decode(output, skip_special_tokens=True)
+
+
 def save_results(df: pd.DataFrame, fig, output_dir: Path, layer: int):
     """Save plot (PNG) and CSV for a layer in a layer-specific subdirectory."""
     # Create layer-specific directory
@@ -403,7 +455,10 @@ def main():
     # Get number of layers
     num_layers = _num_layers(model)
     print(f"[+] Model has {num_layers} layers")
-    
+
+    # Build pipeline for dataset filtering
+    pipeline = LocalPipeline(model, tokenizer)
+
     # Set random seed for reproducibility
     random.seed(args.seed)
     np.random.seed(args.seed)
@@ -416,18 +471,18 @@ def main():
         [schema], args.num_instances, num_fillers_per_item=0, fillers=False
     )
     causal_models = {schema.name: causal_model}
-    
+
     counterfactual_template = ppkn_simpler_counterfactual_template_split_key_loc
-    
+
     train_ds, test_ds, fps = get_counterfactual_datasets(
-        None,
+        pipeline,
         [schema],
         num_samples=args.num_samples,
         num_instances=args.num_instances,
         cat_indices_to_query=[0],
         answer_cat_id=args.cat_to_query,
         do_assert=True,
-        do_filter=False,
+        do_filter=True,
         counterfactual_template=counterfactual_template,
         causal_models=causal_models,
         sample_an_answerable_question=sample_answerable_question_template,
