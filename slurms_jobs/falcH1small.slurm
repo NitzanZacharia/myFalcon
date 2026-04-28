@@ -5,7 +5,7 @@
 #SBATCH --error=logs/%x-%A_%a.err
 #SBATCH --partition=studentkillable
 #SBATCH --account=gpu-students
-#SBATCH --array=0-31
+#SBATCH --array=0-11
 #SBATCH --time=23:50:00
 #SBATCH --gres=gpu:geforce_rtx_2080:1
 #SBATCH --cpus-per-task=8
