@@ -21,7 +21,7 @@ mkdir -p $HF_HOME
 # FIX: combine both allocator options in one assignment.
 # expandable_segments:True is the most important flag for avoiding fragmentation OOM.
 # max_split_size_mb:128 further limits large contiguous chunk requests.
-export PYTORCH_CUDA_ALLOC_CONF=expandable_segments:True,max_split_size_mb:128
+export PYTORCH_CUDA_ALLOC_CONF=max_split_size_mb:128
 
 ### 2. Define Paths ###
 USERNAME="inbalmoryles"
