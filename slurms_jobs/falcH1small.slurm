@@ -29,7 +29,7 @@ VOL_BASE="/vol/joberant_nobck/data/NLP_368307701_2526a/${USERNAME}"
 
 # Model and Directories
 MODEL_ID="tiiuae/Falcon-H1-3B-Instruct"
-REPO_DIR="/vol/joberant_nobck/data/NLP_368307701_2526a/inbalmoryles/falcon100/new"
+REPO_DIR="/vol/joberant_nobck/data/NLP_368307701_2526a/inbalmoryles/falcon100/mine/myFalcon"
 RESULTS_DIR="${VOL_BASE}/mixing-mechs-results_boxes/run_100boxes_1000samples/${MODEL_ID}"
 
 # Cache & Setup
