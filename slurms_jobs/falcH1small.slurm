@@ -3,13 +3,13 @@
 #SBATCH --job-name=Falcon-H1-small_inbal
 #SBATCH --output=logs/%x-%A_%a.out
 #SBATCH --error=logs/%x-%A_%a.err
-#SBATCH --partition=killable
+#SBATCH --partition=studentkillable
 #SBATCH --account=gpu-students
 #SBATCH --array=0-11
 #SBATCH --time=23:50:00
-#SBATCH --gres=gpu:geforce_rtx_3090:1
+#SBATCH --gres=gpu:titan:1
 #SBATCH --cpus-per-task=8
-#SBATCH --mem=48G
+#SBATCH --mem=80G
 
 ### 1. Setup Environment ###
 source /vol/joberant_nobck/data/NLP_368307701_2526a/inbalmoryles/miniconda3/etc/profile.d/conda.sh
