@@ -12,11 +12,11 @@ The original work by Yoav Gur-Arieh, Mor Geva, and Atticus Geiger introduced a f
 Building upon the original interchange intervention framework, we have introduced several key additions:
 
 - **Alternative Positional Encodings:** We extended the residual stream patching analysis to ALiBi models (MPT-7B, Bloomz-3B), confirming that the positional, lexical, and reflexive binding mechanisms generalize beyond RoPE.
-**Hybrid & State-Space Models (SSMs):** We provided the first analysis of entity binding in hybrid Mamba-Attention models (Falcon-H1-3B, Zamba2-2.7B) and pure Mamba models (Falcon-Mamba-7B).
+- **Hybrid & State-Space Models (SSMs):** We provided the first analysis of entity binding in hybrid Mamba-Attention models (Falcon-H1-3B, Zamba2-2.7B) and pure Mamba models (Falcon-Mamba-7B).
 
-**Multi-Layer Component Patching:** We introduced a novel patching methodology for hybrid models to isolate and evaluate the cumulative contributions of specific components (e.g., Attention vs. Mamba) across all layers simultaneously.
+- **Multi-Layer Component Patching:** We introduced a novel patching methodology for hybrid models to isolate and evaluate the cumulative contributions of specific components (e.g., Attention vs. Mamba) across all layers simultaneously.
 
-**100-Entity Scalability Testing:** We scaled the original 20-entity binding task up to 100 bound entities to probe model capacity, representation collapse, and routing adaptations under heavy context loads.
+- **100-Entity Scalability Testing:** We scaled the original 20-entity binding task up to 100 bound entities to probe model capacity, representation collapse, and routing adaptations under heavy context loads.
 
 <p align="center">
   <img width="864" height="830" alt="mechs_fig1" src="https://github.com/user-attachments/assets/e3ac9cdf-add7-4f02-96d0-f2b75e359651" />
