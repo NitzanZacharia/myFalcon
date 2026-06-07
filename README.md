@@ -6,9 +6,7 @@ This repository is an extension of the official code for the paper: **"Mixing Me
   <img width="864" height="830" alt="mechs_fig1" src="https://github.com/user-attachments/assets/e3ac9cdf-add7-4f02-96d0-f2b75e359651" />
 </p>
 
-The original work by Yoav Gur-Arieh, Mor Geva, and Atticus Geiger introduced a framework for studying how large language models retrieve bound entities in-context, distinguishing positional, lexical, and reflexive retrieval mechanisms. This extension builds on that foundation with additional models, infrastructure, and experimental tooling.
-
-While the original work focused exclusively on Transformer models utilizing RoPE positional embeddings, our project expands this interpretability framework to investigate alternative positional encodings and hybrid state-space architectures. 
+The original work by Yoav Gur-Arieh, Mor Geva, and Atticus Geiger introduced a framework for studying how large language models retrieve bound entities in-context, distinguishing positional, lexical, and reflexive retrieval mechanisms. While the original work focused exclusively on Transformer models utilizing RoPE positional embeddings, our project expands this interpretability framework to investigate alternative positional encodings and hybrid state-space architectures. 
 
 ### Our Additions & Extensions
 Building upon the original interchange intervention framework, we have introduced several key additions:
