@@ -47,6 +47,7 @@ If you use this code, please cite the original paper:
     archivePrefix={arXiv},
     primaryClass={cs.CL}
 }
+```
 ### Citation
 If you utilize our extended architectures evaluation, please cite our work:
 ```bibtex
@@ -55,3 +56,4 @@ If you utilize our extended architectures evaluation, please cite our work:
     author={Inbal Moryles and Aviv Yossef and Nitzan Zacharia},
     year={2026}
 }
+```
